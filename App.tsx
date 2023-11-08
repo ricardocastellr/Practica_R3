@@ -5,13 +5,13 @@ import { Actions, Scene, Router } from "react-native-router-flux";
 
 const scenes: void = Actions.create(
   <Scene key="root">
-    <Scene key="login" component={LoginView} hidevBar />
+    <Scene key="login" component={LoginView} hideNavBar/>
     <Scene key="register" component={RegisterView} />
   </Scene>
 )
-
+ 
 export default class App extends Component<Scene>{
-  render(){
-    return <Router scenes={scenes}/>
+  render() {
+    return <Router scenes={scenes} />
   }
 }
