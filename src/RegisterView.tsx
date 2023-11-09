@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, Pressable, TextInput, Alert } from 'react-native';
 import { Component } from 'react';
 import { Actions } from 'react-native-router-flux';
+import { validateEmail, validatePassword, validateBlankField } from './scripts/validations';
 
 interface State {
   email: string,
@@ -17,8 +18,45 @@ export default class LoginView extends Component<State> {
     passwordConfirmation: ""
   }
 
-  onPressValidate = (): void => {
-    Actions.register
+  onPressValidate = (email: string, password: string, passwordConfirmation: string, name: string): void => {
+    const validatedEmail = validateEmail(email);
+    const validatedPassword = validatePassword(password);
+    const validatedBlankEmail = validateBlankField(email);
+    const validatedBlankPassword = validateBlankField(password);
+    const validatedBlankPasswordConfirmation = validateBlankField(passwordConfirmation);
+    const validatedBlankName = validateBlankField(name);
+
+    if (validatedBlankEmail || validatedBlankPassword || validatedBlankPasswordConfirmation || validatedBlankName) {
+      Alert.alert('Campos vacíos', 'Favor de rellenar todos los campos', [
+        { text: 'OK', onPress: () => console.log('OK Pressed Email') },
+      ]);
+      return
+    } else {
+      if (!validatedEmail) {
+        Alert.alert(`${email}`, 'No es un correo válido', [
+          { text: 'OK', onPress: () => console.log('OK Pressed Email') },
+        ]);
+        return
+      }
+      if (!validatedPassword) {
+        Alert.alert('Contraseña inválida', 'La contraseña debe incluir al menos 8 caracteres, un número, una mayúscula y un caracter especial', [
+          { text: 'OK', onPress: () => console.log('OK Pressed Password') },
+        ]);
+        return
+      }
+      if (this.state.password !== this.state.passwordConfirmation) {
+        Alert.alert('Las contraseñas no coinciden', 'Las contraseñas ingresadas no son las mismas', [
+          { text: 'OK', onPress: () => console.log('OK Pressed Password') },
+        ]);
+        return
+      }
+      if (validatedEmail && validatedPassword && password === passwordConfirmation && !validatedBlankName) {
+        Alert.alert('Cuenta valida', 'Haz ingresado de manera correcta', [
+          { text: 'OK', onPress: () => Actions.login() },
+        ]);
+        return
+      }
+    }
   }
 
   onEmailChange = (value: string) => {
@@ -33,7 +71,7 @@ export default class LoginView extends Component<State> {
     this.setState({ password: value })
   }
 
-  onPassword2Change = (value: string) => {
+  onPasswordConfirmationChange = (value: string) => {
     this.setState({ passwordConfirmation: value })
   }
 
@@ -71,7 +109,7 @@ export default class LoginView extends Component<State> {
 
         <TextInput
           value={this.state.passwordConfirmation}
-          onChangeText={(text) => this.onPassword2Change(text)}
+          onChangeText={(text) => this.onPasswordConfirmationChange(text)}
           secureTextEntry={true}
           placeholder="Repite tu contraseña"
           placeholderTextColor="#000"
@@ -79,15 +117,12 @@ export default class LoginView extends Component<State> {
         />
 
         <Pressable
-          onPress={() => this.onPressValidate()}
-          accessibilityLabel="Iniciar Sesión"
+          onPress={() => this.onPressValidate(this.state.email, this.state.password, this.state.passwordConfirmation, this.state.name)}
+          accessibilityLabel="Registrarse"
           style={styles.button}
         >
           <Text style={styles.textButton}>Registrarse</Text>
         </Pressable>
-
-
-
       </View>
     );
   }

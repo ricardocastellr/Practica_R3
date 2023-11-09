@@ -84,14 +84,14 @@ export default class LoginView extends Component<State> {
         <Pressable
           onPress={() => this.onPressValidate(this.state.email, this.state.password)}
           accessibilityLabel="Iniciar Sesión"
-          style={styles.button}
+          style={styles.buttonLogin}
         >
           <Text style={styles.textButton}>Iniciar sesión</Text>
         </Pressable>
         <Pressable
           onPress={() => Actions.register()}
           accessibilityLabel="Registrarse"
-          style={styles.button}
+          style={styles.buttonRegister}
         >
           <Text style={styles.textButton}>Registarse</Text>
         </Pressable>
@@ -115,12 +115,18 @@ const styles = StyleSheet.create({
   textButton: {
     fontSize: 17,
   },
-  button: {
+  buttonLogin: {
     backgroundColor: '#7676C2',
     borderColor: 'red',
     padding: 15,
     borderRadius: 100,
     margin: 30,
+  },
+  buttonRegister: {
+    backgroundColor: '#7676C2',
+    borderColor: 'red',
+    padding: 15,
+    borderRadius: 100,
   },
   TextInput: {
     textAlign: "center",
