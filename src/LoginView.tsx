@@ -114,6 +114,7 @@ const styles = StyleSheet.create({
   },
   textButton: {
     fontSize: 17,
+    color: "white",
   },
   buttonLogin: {
     backgroundColor: '#7676C2',
@@ -133,7 +134,7 @@ const styles = StyleSheet.create({
     width: 200,
     margin: 10,
     borderColor: 'black',
-    borderWidth: 5,
+    borderWidth: 1,
     borderRadius: 30,
     paddingLeft: 5,
     paddingRight: 5,
